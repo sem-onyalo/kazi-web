@@ -4,8 +4,6 @@ Constants = {
     ADD_TASK_ELEM_ID: 'addTaskInput',
     ADD_TASK_MAX_LENGTH: 255,
     ALERT_ELEM_ID: 'alertElement',
-    // API_URL: 'https://sheltered-island-31823.herokuapp.com',
-    API_URL: 'http://localhost:8000',
     ASSOCIATION_KEY_ATTRIBUTE: 'association-key',
     ASSOCIATION_LIST_ELEM_ID: 'associationsList',
     ASSOCIATION_LIST_CONTAINER_ELEM_ID: 'associationsContainer',
@@ -417,7 +415,7 @@ UserInteractor = {
 
     expireUserSession: function (args) {
         AjaxHelper.getRequest({
-            url: Constants.API_URL + '/users/expire',
+            url: Config.API_URL + '/users/expire',
             callback: function () {
                 delete sessionStorage.user;
                 document.dispatchEvent(new CustomEvent("onsignout"));
@@ -434,7 +432,7 @@ UserInteractor = {
             ElementHelper.addLoadingElement(Constants.SIGN_IN_FORM_ELEM_ID, Constants.LOADING_SIGN_IN_ELEM_ID);
             
             AjaxHelper.postJsonRequest({
-                url: Constants.API_URL + '/users/authenticate',
+                url: Config.API_URL + '/users/authenticate',
                 content: { Username: request.usernameElem.value, Password: request.passwordElem.value },
                 callback: this.authenticateUserRequestCallback
             });
@@ -676,7 +674,7 @@ ComponentInteractor = {
                     var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                     var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                     AjaxHelper.postJsonRequest({
-                        url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                        url: Config.API_URL + '/tasks/' + itemId + '/components',
                         content: { 
                             ComponentId: componentId,
                             Data: {
@@ -792,7 +790,7 @@ ComponentInteractor = {
                 var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                 var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                 AjaxHelper.postJsonRequest({
-                    url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                    url: Config.API_URL + '/tasks/' + itemId + '/components',
                     content: { 
                         ComponentId: componentId,
                         Data: {
@@ -894,7 +892,7 @@ ComponentInteractor = {
                     var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                     var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                     AjaxHelper.postJsonRequest({
-                        url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                        url: Config.API_URL + '/tasks/' + itemId + '/components',
                         content: { 
                             ComponentId: componentId,
                             Data: {
@@ -1024,7 +1022,7 @@ ComponentInteractor = {
                     var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                     var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                     AjaxHelper.postJsonRequest({
-                        url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                        url: Config.API_URL + '/tasks/' + itemId + '/components',
                         content: { 
                             ComponentId: componentId,
                             Data: {
@@ -1061,7 +1059,7 @@ ComponentInteractor = {
                     var lastMessageElement = request.componentContainer.getElementsByClassName('message-container')[0];
                     var lastMessageId = lastMessageElement ? parseInt(lastMessageElement.getAttribute(Constants.MESSAGE_ID_ATTRIBUTE)) : 0;
                     AjaxHelper.getJsonRequest({
-                        url: Constants.API_URL + '/tasks/' + itemId + '/components/' + componentId + '?lastmessageid=' + lastMessageId,
+                        url: Config.API_URL + '/tasks/' + itemId + '/components/' + componentId + '?lastmessageid=' + lastMessageId,
                         callbackArgs: {
                             originalRequest: request
                         },
@@ -1208,7 +1206,7 @@ ComponentInteractor = {
                 var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                 var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                 AjaxHelper.postJsonRequest({
-                    url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                    url: Config.API_URL + '/tasks/' + itemId + '/components',
                     content: { 
                         ComponentId: componentId,
                         Data: {
@@ -1349,7 +1347,7 @@ ComponentInteractor = {
                 var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                 var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                 AjaxHelper.postJsonRequest({
-                    url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                    url: Config.API_URL + '/tasks/' + itemId + '/components',
                     content: { 
                         ComponentId: componentId,
                         Data: request.payload
@@ -1538,7 +1536,7 @@ ComponentInteractor = {
                 var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                 var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                 AjaxHelper.postJsonRequest({
-                    url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                    url: Config.API_URL + '/tasks/' + itemId + '/components',
                     content: { 
                         ComponentId: componentId,
                         Data: request.payload
@@ -1728,7 +1726,7 @@ ComponentInteractor = {
                 var itemId = request.componentContainer.getAttribute(Constants.TASK_ID_ATTRIBUTE);
                 var componentId = request.componentContainer.getAttribute(Constants.COMPONENT_ID_ATTRIBUTE);
                 AjaxHelper.postJsonRequest({
-                    url: Constants.API_URL + '/tasks/' + itemId + '/components',
+                    url: Config.API_URL + '/tasks/' + itemId + '/components',
                     content: { 
                         ComponentId: componentId,
                         Data: request.payload
@@ -1911,7 +1909,7 @@ AssociationInteractor = {
 
 
         var path = UrlHelper.routes.has(Constants.ASSOCIATION_KEY_ATTRIBUTE) ? '/associations/' + UrlHelper.routes.get(Constants.ASSOCIATION_KEY_ATTRIBUTE) : '/associations';
-        var url = Constants.API_URL + path;
+        var url = Config.API_URL + path;
 
         AjaxHelper.getJsonRequest({
             url: url,
@@ -2076,7 +2074,7 @@ DirectoryInteractor = {
         });
 
         AjaxHelper.getJsonRequest({
-            url: Constants.API_URL + '/associations/' + request.associationId + '/directories',
+            url: Config.API_URL + '/associations/' + request.associationId + '/directories',
             callback: this.getDirectoriesRequestCallback
         });
     },
@@ -2130,7 +2128,7 @@ ItemInteractor = {
         ElementHelper.addLoadingElement(document.getElementById(Constants.TASK_CONTAINER_ELEM_ID).parentElement, Constants.LOADING_TASKS_LIST_ELEM_ID);
 
         AjaxHelper.getJsonRequest({
-            url: Constants.API_URL + '/directories/' + request.directoryId + '/tasks',
+            url: Config.API_URL + '/directories/' + request.directoryId + '/tasks',
             callback: this.getItemsRequestCallback,
             callbackArgs: {
                 directoryId: request.directoryId
@@ -2157,7 +2155,7 @@ ItemInteractor = {
             this.addUnconfirmedItem(Constants.TASK_CONTAINER_ELEM_ID, request.addItemElem.value, itemGuid);
             
             AjaxHelper.postJsonRequest({
-                url: Constants.API_URL + '/tasks',
+                url: Config.API_URL + '/tasks',
                 content: { 
                     Name: request.addItemElem.value, 
                     DirectoryId: parseInt(request.addItemElem.getAttribute(Constants.DIRECTORY_ID_ATTRIBUTE)) 
@@ -2186,7 +2184,7 @@ ItemInteractor = {
     
     loadItemComponentsRequest: function (args) {
         AjaxHelper.getJsonRequest({
-            url: Constants.API_URL + '/tasks/' + args.itemId + '/components',
+            url: Config.API_URL + '/tasks/' + args.itemId + '/components',
             callback: this.loadItemComponentsRequestCallback,
             callbackArgs: { directoryId: args.directoryId, itemElement: args.itemElement }
         });
@@ -2230,7 +2228,7 @@ ItemInteractor = {
             // this.addUnconfirmedItem(Constants.TASK_CONTAINER_ELEM_ID, request.addItemElem.value, itemGuid);
 
             // AjaxHelper.putJsonRequest({
-            //     url: Constants.API_URL + '/tasks',
+            //     url: Config.API_URL + '/tasks',
             //     content: { 
             //         Name: request.updateItemElem.value, 
             //         DirectoryId: parseInt(request.updateItemElem.getAttribute(Constants.DIRECTORY_ID_ATTRIBUTE)) 
@@ -2422,8 +2420,8 @@ ItemInteractor = {
     loadItemListComponentsRequest: function (args) {
         AjaxHelper.getJsonRequest({
             // TODO: change API to use dataType param for task list component data
-            // url: Constants.API_URL + '/tasks/' + args.itemId + '/components?dataType=' + Constants.ContentType.TASKS_LIST,
-            url: Constants.API_URL + '/directories/' + args.directoryId + '/components',
+            // url: Config.API_URL + '/tasks/' + args.itemId + '/components?dataType=' + Constants.ContentType.TASKS_LIST,
+            url: Config.API_URL + '/directories/' + args.directoryId + '/components',
             callback: this.loadItemListComponentsRequestCallback,
             callbackArgs: { directoryId: args.directoryId, containerElement: args.containerElement }
         });
