@@ -1594,15 +1594,25 @@ ComponentInteractor = {
                 var x = d3.scaleLinear().range([0, width]);
                 var y = d3.scaleLinear().range([height, 0]);
 
-                // Scale the range of the data
-                x.domain([d3.min(data, function(d) { return d.xValue; }), d3.max(data, function(d) { return d.xValue; })]);
-                y.domain([0, d3.max(data, function(d) { 
+                var xMin = d3.min(data, function(d) { return d.xValue; });
+                var xMax = d3.max(data, function(d) { return d.xValue; });
+                var yMin = 0;
+                var yMax = d3.max(data, function(d) { 
                     var arr = [];
                     for (var i = 1; d.hasOwnProperty('yValue' + i); i++) {
                         arr.push(d['yValue' + i]);
                     }
                     return Math.max.apply(null, arr); //return Math.max(...arr);
-                })]);
+                });
+
+                // create a collection of all the values
+                var xValues = [], yValues = [];
+                for (var i = 0, j = xMin; j <= xMax; i++, j++) xValues[i] = j;
+                for (var i = 0, j = yMin; j <= yMax; i++, j++) yValues[i] = j;
+
+                // Scale the range of the data
+                x.domain([xMin, xMax]);
+                y.domain([yMin, yMax]);
 
                 var valuelines = function (yValueNum) {
                     return d3.line()
@@ -1644,12 +1654,14 @@ ComponentInteractor = {
                 svg.append("g")
                     .attr("transform", "translate(0," + height + ")")
                     .attr("class", "axis")
-                    .call(d3.axisBottom(x).ticks(2));
+                    .call(d3.axisBottom(x)
+                        .tickValues(xValues));
 
                 // Add the Y Axis
                 svg.append("g")
                     .attr("class", "axis")
-                    .call(d3.axisLeft(y));
+                    .call(d3.axisLeft(y)
+                        .tickValues(yValues));
 
                 // text label for the x axis
                 if (args.chartMetaData.xAxisName) {
@@ -1666,7 +1678,7 @@ ComponentInteractor = {
                     svg.append("text")
                         .attr("transform", "rotate(-90)")
                         .attr("y", 0 - margin.left)
-                        .attr("x",0 - (height / 2))
+                        .attr("x", 0 - (height / 2))
                         .attr("dy", "1em")
                         .style("text-anchor", "middle")
                         .attr("class", "axis")
